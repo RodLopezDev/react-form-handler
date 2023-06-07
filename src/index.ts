@@ -1,1 +1,1 @@
-export const Value = 1;
+export { default as Button } from "./Button";
