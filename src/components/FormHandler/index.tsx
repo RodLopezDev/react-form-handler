@@ -5,20 +5,19 @@ import { BaseSyntheticEvent } from "react";
 const FormHandler = <T extends FieldValues = FieldValues>(
   props: FormHandlerProps<T>
 ) => {
-  const { children, config, onSubmit, styles } = props;
+  const { children, config = {}, onSubmit, styles } = props;
   const methods = useForm<T>(config);
 
-  const middlewareSubmit = () => {
+  const middlewareSubmit = () =>
     methods.handleSubmit(
       (data: T, event?: BaseSyntheticEvent) =>
         onSubmit && onSubmit(data, methods, event)
     );
-  };
 
   return (
     <FormProvider {...methods}>
       <form
-        onSubmit={middlewareSubmit}
+        onSubmit={middlewareSubmit()}
         style={styles?.form || { display: "contents" }}
       >
         {children}
