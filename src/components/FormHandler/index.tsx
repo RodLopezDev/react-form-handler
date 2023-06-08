@@ -1,11 +1,14 @@
-import { FieldValues, FormProvider, useForm } from "react-hook-form";
-import { FormHandlerProps } from "./types";
 import { BaseSyntheticEvent } from "react";
+import { FieldValues, FormProvider, Path, useForm } from "react-hook-form";
+
+import { FormHandlerProps } from "./types";
+
+import { Dependencies, DependenciesProvider } from "../../core";
 
 const FormHandler = <T extends FieldValues = FieldValues>(
   props: FormHandlerProps<T>
 ) => {
-  const { children, config = {}, onSubmit, styles } = props;
+  const { children, config = {}, onSubmit, styles, dependencies } = props;
   const methods = useForm<T>(config);
 
   const middlewareSubmit = () =>
@@ -15,14 +18,18 @@ const FormHandler = <T extends FieldValues = FieldValues>(
     );
 
   return (
-    <FormProvider {...methods}>
-      <form
-        onSubmit={middlewareSubmit()}
-        style={styles?.form || { display: "contents" }}
-      >
-        {children}
-      </form>
-    </FormProvider>
+    <DependenciesProvider<T>
+      dependencies={dependencies || ({} as Dependencies<T, Path<T>>)}
+    >
+      <FormProvider {...methods}>
+        <form
+          onSubmit={middlewareSubmit()}
+          style={styles?.form || { display: "contents" }}
+        >
+          {children}
+        </form>
+      </FormProvider>
+    </DependenciesProvider>
   );
 };
 

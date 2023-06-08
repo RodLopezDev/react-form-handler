@@ -1,9 +1,16 @@
 {
   "name": "@rodlopez/react-form-handler",
   "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
-  "keywords": [],
+  "description": "Simple form handler",
+  "keywords": [
+    "react",
+    "reac-hook-form",
+    "form",
+    "form-handler",
+    "dependencies",
+    "fields",
+    "complex"
+  ],
   "scripts": {
     "start:dev": "npx nodemon server/index.ts",
     "build": "rm -rf ./dist && tsc -p tsconfig.build.json",
@@ -39,12 +46,15 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "7.44.3"
   },
+  "author": "RodLopezDev",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "jsnext:main": "dist/index.es.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/RodLopezDev/rodlopez-react-form-handler.git"
   },
-  "author": "RodLopezDev",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/RodLopezDev/rodlopez-react-form-handler/issues"
   },

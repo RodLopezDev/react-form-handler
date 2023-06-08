@@ -1,11 +1,12 @@
 import {
-  FieldValues,
   Path,
+  FieldValues,
   useController,
   useFormContext,
 } from "react-hook-form";
 
 import { FieldHandlerProps } from "./types";
+import useDependencies from "../../core/DependenciesProvider/useDepdendencies";
 
 const FieldHandler = <
   TFieldValues extends FieldValues = FieldValues,
@@ -15,17 +16,30 @@ const FieldHandler = <
 ) => {
   const { name, render } = props;
   const methods = useFormContext<TFieldValues>();
+  const triggerDependencies = useDependencies<TFieldValues, TName>(name);
+
   const { control } = methods;
 
   const controller = useController<TFieldValues, TName>({ name, control });
-  // const {
-  //   field: { onChange, onBlur, value },
-  //   field,
-  //   fieldState,
-  //   formState,
-  // } = controller;
+  const { field } = controller;
+  const { onChange, onBlur, value, ...restField } = field;
 
-  return render(controller);
+  const middlewareDependenciesOnChange =
+    (callback: (...event: any[]) => void) => (e: any) => {
+      const currentValue = e?.target?.value;
+      triggerDependencies(currentValue);
+      return callback(e);
+    };
+
+  return render({
+    ...controller,
+    field: {
+      ...restField,
+      value,
+      onBlur,
+      onChange: middlewareDependenciesOnChange(onChange),
+    },
+  });
 };
 
 export default FieldHandler;

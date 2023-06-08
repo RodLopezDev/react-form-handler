@@ -7,5 +7,5 @@ export type { FieldHandlerProps } from "./components/FieldHandler/types";
 export { default as MethodsHandler } from "./components/MethodsHandler";
 export type { MethodsHandlerProps } from "./components/MethodsHandler/types";
 
-//TMP
-export { default as Button } from "./Button";
+// CORE
+export type { Dependencies } from "./core";
